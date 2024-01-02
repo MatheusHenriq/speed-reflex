@@ -4,8 +4,8 @@ import 'package:speed_reflect/modules/game/model/card_model.dart';
 class CardNotified extends StateNotifier<List<CardModel>> {
   CardNotified() : super([]);
 
-  void createCard({required CardModel petData}) {
-    state = [...state, petData];
+  void createCard({required CardModel cardData}) {
+    state = [...state, cardData];
   }
 
   List<CardModel> readCard() {
@@ -20,6 +20,14 @@ class CardNotified extends StateNotifier<List<CardModel>> {
     for (var i = 0; i < (data.length); i++) {
       state.add(data[i]);
     }
+  }
+
+  void clear() {
+    state.clear();
+  }
+
+  void updateCard({required CardModel cardData, required int index}) {
+    state[index] = cardData;
   }
 
   void deleteCard({required CardModel petData}) {

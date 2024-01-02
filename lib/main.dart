@@ -10,7 +10,7 @@ void main() {
       child: ModularApp(
         module: AppModule(),
         child: MaterialApp.router(
-          title: 'Speed Reflect',
+          title: 'Speed Reflex',
           routerConfig: Modular.routerConfig,
         ),
       ),
