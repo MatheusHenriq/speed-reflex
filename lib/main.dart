@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-
-import 'modules/game/view/game_view.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:speed_reflect/app_modules.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    ProviderScope(
+      child: ModularApp(
+        module: AppModule(),
+        child: MaterialApp.router(
+          title: 'Speed Reflect',
+          routerConfig: Modular.routerConfig,
+        ),
       ),
-      home: const GameView(),
-    );
-  }
+    ),
+  );
 }
