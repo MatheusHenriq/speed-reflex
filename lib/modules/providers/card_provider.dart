@@ -12,6 +12,12 @@ class CardNotified extends StateNotifier<List<CardModel>> {
     return state;
   }
 
+  void createCardListWithLength({required int length}) {
+    for (var i = 0; i < length; i++) {
+      createCard(cardData: CardModel(isActive: false, isSelected: false));
+    }
+  }
+
   void clearAndSetData({
     required List<CardModel> cardListData,
   }) {
@@ -26,8 +32,17 @@ class CardNotified extends StateNotifier<List<CardModel>> {
     state.clear();
   }
 
-  void updateCard({required CardModel cardData, required int index}) {
-    state[index] = cardData;
+  void updateCard({required List<CardModel> cardList, required CardModel cardData, required int index}) {
+    List<CardModel> data = [];
+    for (int i = 0; i < state.length; i++) {
+      data.add(state[i]);
+    }
+    data[index] = cardData;
+    state.clear();
+
+    for (var i = 0; i < data.length; i++) {
+      state = [...state, data[i]];
+    }
   }
 
   void deleteCard({required CardModel petData}) {

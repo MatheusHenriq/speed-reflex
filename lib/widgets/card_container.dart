@@ -6,7 +6,6 @@ import 'package:speed_reflect/modules/game/model/card_model.dart';
 class CardContainer extends StatefulWidget {
   final CardModel cardData;
   final Function(CardModel) onTap;
-
   const CardContainer({
     super.key,
     required this.cardData,
@@ -18,7 +17,6 @@ class CardContainer extends StatefulWidget {
 }
 
 class _CardContainerState extends State<CardContainer> {
-  bool isSelected = false;
   late AudioPlayer player;
   @override
   void initState() {
@@ -36,18 +34,13 @@ class _CardContainerState extends State<CardContainer> {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(50),
-      color: (widget.cardData.isActive ?? false) ? (isSelected ? Colors.brown[200] : Colors.red) : Colors.brown[200],
+      color: ((widget.cardData.isActive ?? false) && !(widget.cardData.isSelected ?? false)) ? Colors.red : Colors.brown[200],
       child: InkWell(
         borderRadius: BorderRadius.circular(50),
         onTap: () async {
           if (widget.cardData.isActive ?? false) {
             await player.play(AssetSource(AppSounds.correctClickSound));
-            setState(() {
-              isSelected = true;
-            });
-            widget.onTap(
-              CardModel(isActive: false, isSelected: true),
-            );
+            widget.onTap(CardModel(isActive: false, isSelected: true));
           } else {
             await player.play(AssetSource(AppSounds.wrongClickSound));
           }

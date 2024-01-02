@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speed_reflect/modules/game/controller/game_controller.dart';
 
 import '../../../widgets/card_container.dart';
-import '../model/card_model.dart';
 
 class GameView extends ConsumerWidget {
   final GameController controller;
@@ -11,7 +10,6 @@ class GameView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    controller.initialize(ref: ref);
     return Scaffold(
       backgroundColor: Colors.cyanAccent,
       appBar: AppBar(
@@ -25,25 +23,27 @@ class GameView extends ConsumerWidget {
           ),
           Flexible(
             flex: 6,
-            child: Consumer(builder: (context, ref, child) {
-              return GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  crossAxisSpacing: 24,
-                  childAspectRatio: 1,
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                crossAxisSpacing: 24,
+                childAspectRatio: 1,
+              ),
+              itemBuilder: (context, index) => UnconstrainedBox(
+                child: CardContainer(
+                  onTap: (p0) {
+                    ref.read(controller.cardListProvider.notifier).updateCard(
+                          cardList: ref.watch(controller.cardListProvider),
+                          cardData: p0,
+                          index: index,
+                        );
+                  },
+                  cardData: ref.watch(controller.cardListProvider)[index],
                 ),
-                itemBuilder: (context, index) => UnconstrainedBox(
-                  child: CardContainer(
-                    onTap: (newCardValue) {
-                      ref.read(controller.cardListProvider.notifier).updateCard(cardData: newCardValue, index: index);
-                    },
-                    cardData: ref.watch(controller.cardListProvider)[index],
-                  ),
-                ),
-                itemCount: controller.maxCards,
-              );
-            }),
+              ),
+              itemCount: controller.maxCards,
+            ),
           ),
           Flexible(
             flex: 1,
@@ -53,9 +53,7 @@ class GameView extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 6, bottom: 12),
                   child: MaterialButton(
-                    color: !ref.watch(controller.cardListProvider).contains(CardModel(isActive: true, isSelected: true))
-                        ? Colors.green
-                        : Colors.grey,
+                    color: Colors.grey,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     onPressed: () => controller.createNewGame(ref: ref),
                     child: const Text('Next'),

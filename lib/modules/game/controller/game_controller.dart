@@ -13,41 +13,19 @@ class GameController {
   ) {
     return CardNotified();
   });
-  void initialize({required WidgetRef ref}) {
-    int numberOfCardToSelect = Random().nextInt(maxCards - 3) + 3;
-    List<CardModel> cardListModel = [];
-    List<int> numberofSelectableIndexes = [];
-    for (var i = 0; i < maxCards; i++) {
-      cardListModel.add(CardModel(isActive: false, isSelected: false));
-    }
-    int controlVariable = 0;
-    do {
-      int randomIndex = Random().nextInt(maxCards);
-      if (!numberofSelectableIndexes.contains(randomIndex)) {
-        numberofSelectableIndexes.add(randomIndex);
-
-        cardListModel[randomIndex] = CardModel(isActive: true, isSelected: false);
-        controlVariable++;
-      }
-    } while (controlVariable < numberOfCardToSelect);
-    ref.read(cardListProvider.notifier).clearAndSetData(cardListData: cardListModel);
-  }
 
   Future createNewGame({required WidgetRef ref}) async {
     ref.read(cardListProvider.notifier).clearAndSetData(cardListData: []);
     int numberOfCardToSelect = Random().nextInt(maxCards - 3) + 3;
     List<int> numberofSelectableIndexes = [];
-    for (var i = 0; i < maxCards; i++) {
-      ref.read(cardListProvider.notifier).createCard(cardData: CardModel(isActive: false, isSelected: false));
-    }
+    ref.read(cardListProvider.notifier).createCardListWithLength(length: maxCards);
     int controlVariable = 0;
     do {
       int randomIndex = Random().nextInt(maxCards);
       if (!numberofSelectableIndexes.contains(randomIndex)) {
         numberofSelectableIndexes.add(randomIndex);
-        ref
-            .read(cardListProvider.notifier)
-            .updateCard(cardData: CardModel(isActive: true, isSelected: false), index: randomIndex);
+        ref.read(cardListProvider.notifier).updateCard(
+            cardList: ref.watch(cardListProvider), cardData: CardModel(isActive: true, isSelected: false), index: randomIndex);
         controlVariable++;
       }
     } while (controlVariable < numberOfCardToSelect);
