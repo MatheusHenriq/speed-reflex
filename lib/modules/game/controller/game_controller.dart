@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:speed_reflect/modules/providers/card_provider.dart';
+import 'package:speed_reflect/modules/game/providers/card_provider.dart';
 
 import '../model/card_model.dart';
 
