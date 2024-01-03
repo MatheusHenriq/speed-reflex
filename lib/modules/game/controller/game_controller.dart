@@ -16,7 +16,7 @@ class GameController {
 
   Future createNewGame({required WidgetRef ref}) async {
     ref.read(cardListProvider.notifier).clearAndSetData(cardListData: []);
-    int numberOfCardToSelect = Random().nextInt(maxCards - 3) + 3;
+    int numberOfCardToSelect = Random().nextInt(maxCards - 5) + 3;
     List<int> numberofSelectableIndexes = [];
     ref.read(cardListProvider.notifier).createCardListWithLength(length: maxCards);
     int controlVariable = 0;
