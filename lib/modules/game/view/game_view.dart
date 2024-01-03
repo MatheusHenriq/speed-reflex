@@ -1,7 +1,9 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speed_reflect/modules/game/controller/game_controller.dart';
 
+import '../../../core/constants/app_sounds.dart';
 import '../../../widgets/card_container.dart';
 
 class GameView extends ConsumerWidget {
@@ -32,10 +34,10 @@ class GameView extends ConsumerWidget {
               ),
               itemBuilder: (context, index) => UnconstrainedBox(
                 child: CardContainer(
-                  onTap: (p0) {
+                  onTap: (newCardData) {
                     ref.read(controller.cardListProvider.notifier).updateCard(
                           cardList: ref.watch(controller.cardListProvider),
-                          cardData: p0,
+                          cardData: newCardData,
                           index: index,
                         );
                   },
@@ -55,7 +57,13 @@ class GameView extends ConsumerWidget {
                   child: MaterialButton(
                     color: Colors.grey,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                    onPressed: () => controller.createNewGame(ref: ref),
+                    onPressed: () async {
+                      AudioPlayer audioPlayer = AudioPlayer();
+                      await audioPlayer.play(
+                        AssetSource(AppSounds.nextLevetClickSound),
+                      );
+                      controller.createNewGame(ref: ref);
+                    },
                     child: const Text('Next'),
                   ),
                 ),
