@@ -71,11 +71,13 @@ class GameView extends StatelessWidget {
                           color: controller.allSelectableCardsSelected(ref: ref) ? Colors.green[700] : Colors.grey,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                           onPressed: () async {
-                            AudioPlayer audioPlayer = AudioPlayer();
-                            await audioPlayer.play(
-                              AssetSource(AppSounds.nextLevetClickSound),
-                            );
-                            controller.createNewGame(ref: ref);
+                            if (controller.allSelectableCardsSelected(ref: ref)) {
+                              AudioPlayer audioPlayer = AudioPlayer();
+                              await audioPlayer.play(
+                                AssetSource(AppSounds.nextLevetClickSound),
+                              );
+                              controller.createNewGame(ref: ref);
+                            }
                           },
                           child: const Text(
                             'Next',
