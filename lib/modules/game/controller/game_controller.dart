@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:speed_reflect/modules/providers/card_provider.dart';
+import 'package:speed_reflect/modules/game/providers/card_provider.dart';
 
 import '../model/card_model.dart';
 
@@ -16,7 +16,7 @@ class GameController {
 
   Future createNewGame({required WidgetRef ref}) async {
     ref.read(cardListProvider.notifier).clearAndSetData(cardListData: []);
-    int numberOfCardToSelect = Random().nextInt(maxCards - 3) + 3;
+    int numberOfCardToSelect = Random().nextInt(maxCards - 5) + 3;
     List<int> numberofSelectableIndexes = [];
     ref.read(cardListProvider.notifier).createCardListWithLength(length: maxCards);
     int controlVariable = 0;
@@ -32,12 +32,11 @@ class GameController {
   }
 
   bool allSelectableCardsSelected({required WidgetRef ref}) {
-    for (var i = 0; i < ref.read(cardListProvider.notifier).readCard().length; i++) {
-      if (ref.read(cardListProvider.notifier).readCard()[i] == CardModel(isActive: true, isSelected: false)) {
+    for (var card in ref.watch(cardListProvider)) {
+      if (card.isActive == true) {
         return false;
       }
     }
-
     return true;
   }
 }
