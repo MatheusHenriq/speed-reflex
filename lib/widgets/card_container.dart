@@ -39,10 +39,23 @@ class _CardContainerState extends State<CardContainer> {
         borderRadius: BorderRadius.circular(50),
         onTap: () async {
           if (widget.cardData.isActive ?? false) {
-            await player.play(AssetSource(AppSounds.correctClickSound));
-            widget.onTap(CardModel(isActive: false, isSelected: true));
+            await player.play(
+              AssetSource(
+                AppSounds.correctClickSound,
+              ),
+            );
+            widget.onTap(
+              CardModel(
+                isActive: false,
+                isSelected: true,
+              ),
+            );
           } else {
-            await player.play(AssetSource(AppSounds.wrongClickSound));
+            await player.play(
+              AssetSource(
+                AppSounds.wrongClickSound,
+              ),
+            );
           }
         },
         child: Container(

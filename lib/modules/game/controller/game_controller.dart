@@ -32,12 +32,11 @@ class GameController {
   }
 
   bool allSelectableCardsSelected({required WidgetRef ref}) {
-    for (var i = 0; i < ref.read(cardListProvider.notifier).readCard().length; i++) {
-      if (ref.read(cardListProvider.notifier).readCard()[i] == CardModel(isActive: true, isSelected: false)) {
+    for (var card in ref.watch(cardListProvider)) {
+      if (card.isActive == true) {
         return false;
       }
     }
-
     return true;
   }
 }

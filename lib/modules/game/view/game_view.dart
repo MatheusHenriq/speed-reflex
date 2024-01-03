@@ -68,7 +68,7 @@ class GameView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 6, bottom: 12),
                       child: Consumer(builder: (context, ref, child) {
                         return MaterialButton(
-                          color: Colors.grey,
+                          color: controller.allSelectableCardsSelected(ref: ref) ? Colors.green[700] : Colors.grey,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                           onPressed: () async {
                             AudioPlayer audioPlayer = AudioPlayer();
@@ -77,7 +77,13 @@ class GameView extends StatelessWidget {
                             );
                             controller.createNewGame(ref: ref);
                           },
-                          child: const Text('Next'),
+                          child: const Text(
+                            'Next',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         );
                       }),
                     ),
