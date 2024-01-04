@@ -18,7 +18,7 @@ class AppTheme {
     fontFamily: "Roboto",
     listTileTheme: const ListTileThemeData(
       contentPadding: EdgeInsets.only(left: 16),
-      tileColor: Colors.white,
+      tileColor: Colors.transparent,
       titleTextStyle: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w400,
@@ -28,7 +28,7 @@ class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
-          Colors.black,
+          Colors.blue,
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(

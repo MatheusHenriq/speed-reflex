@@ -51,6 +51,12 @@ class _CardContainerState extends State<CardContainer> {
               ),
             );
           } else {
+            widget.onTap(
+              CardModel(
+                isActive: false,
+                isSelected: false,
+              ),
+            );
             await player.play(
               AssetSource(
                 AppSounds.wrongClickSound,
