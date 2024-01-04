@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speed_reflect/modules/game/controller/game_controller.dart';
 
@@ -17,10 +18,36 @@ class GameView extends StatelessWidget {
   ) {
     return Scaffold(
       backgroundColor: Colors.cyanAccent,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Consumer(builder: (context, ref, child) {
-          return Text("Speed Reflect - Level ${ref.watch(controller.levelProvider)}");
+          return ListTile(
+            leading: ElevatedButton(
+              onPressed: () => Modular.to.pop(),
+              child: const Text(
+                "Back",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            title: const Center(
+              child: Text(
+                "Speed Reflect",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            trailing: Text(
+              "Level ${ref.watch(controller.levelProvider)}",
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+            ),
+          );
         }),
       ),
       body: Stack(
