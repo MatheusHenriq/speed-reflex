@@ -65,7 +65,7 @@ class GameView extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.only(left: 6, bottom: 12),
+                      padding: const EdgeInsets.only(left: 6, bottom: 34),
                       child: Consumer(builder: (context, ref, child) {
                         return MaterialButton(
                           color: controller.allSelectableCardsSelected(ref: ref) ? Colors.green[700] : Colors.grey,
