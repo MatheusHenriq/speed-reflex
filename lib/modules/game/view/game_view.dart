@@ -19,7 +19,9 @@ class GameView extends StatelessWidget {
       backgroundColor: Colors.cyanAccent,
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text("Speed Reflect"),
+        title: Consumer(builder: (context, ref, child) {
+          return Text("Speed Reflect - Level ${ref.watch(controller.levelProvider)}");
+        }),
       ),
       body: Stack(
         children: [
@@ -46,6 +48,11 @@ class GameView extends StatelessWidget {
                     child: Consumer(builder: (context, ref, child) {
                       return CardContainer(
                         onTap: (newCardData) {
+                          if (newCardData.isSelected == false) {
+                            ref.read(controller.levelProvider.notifier).state = 0;
+                            controller.createNewGame(ref: ref);
+                            return;
+                          }
                           ref.read(controller.cardListProvider.notifier).updateCard(
                                 cardList: ref.watch(controller.cardListProvider),
                                 cardData: newCardData,
@@ -76,6 +83,7 @@ class GameView extends StatelessWidget {
                               await audioPlayer.play(
                                 AssetSource(AppSounds.nextLevetClickSound),
                               );
+                              ref.read(controller.levelProvider.notifier).state++;
                               controller.createNewGame(ref: ref);
                             }
                           },

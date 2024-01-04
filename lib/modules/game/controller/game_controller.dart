@@ -13,6 +13,7 @@ class GameController {
   ) {
     return CardNotified();
   });
+  final levelProvider = StateProvider<int>((ref) => 0);
 
   Future createNewGame({required WidgetRef ref}) async {
     ref.read(cardListProvider.notifier).clearAndSetData(cardListData: []);
