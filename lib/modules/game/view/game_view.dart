@@ -98,9 +98,8 @@ class _GameViewState extends State<GameView> {
                       return CardContainer(
                         onTap: (newCardData) {
                           if (newCardData.isSelected == false) {
-                            ref.read(widget.controller.levelProvider.notifier).state = 0;
+                            ref.read(widget.controller.levelProvider.notifier).state = 1;
                             widget.controller.createNewGame(ref: ref);
-                            return;
                           }
                           ref.read(widget.controller.cardListProvider.notifier).updateCard(
                                 cardList: ref.watch(widget.controller.cardListProvider),

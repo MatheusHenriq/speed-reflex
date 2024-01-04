@@ -13,11 +13,15 @@ class GameController {
   ) {
     return CardNotified();
   });
-  final levelProvider = StateProvider<int>((ref) => 0);
+  final levelProvider = StateProvider<int>((ref) => 1);
 
   Future createNewGame({required WidgetRef ref}) async {
     ref.read(cardListProvider.notifier).clearAndSetData(cardListData: []);
     int numberOfCardToSelect = Random().nextInt(maxCards - 5) + 3;
+    if (ref.watch(levelProvider) < (maxCards - 5)) {
+      numberOfCardToSelect = Random().nextInt(ref.watch(levelProvider)) + 3;
+    }
+
     List<int> numberofSelectableIndexes = [];
     ref.read(cardListProvider.notifier).createCardListWithLength(length: maxCards);
     int controlVariable = 0;
