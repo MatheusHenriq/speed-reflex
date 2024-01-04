@@ -9,4 +9,6 @@ class LandingController {
     Modular.get<GameController>().createNewGame(ref: ref);
     Modular.to.pushNamed(GameView.route);
   }
+
+  void settings() {}
 }

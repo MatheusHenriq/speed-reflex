@@ -11,6 +11,26 @@ class LandingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 72,
+        title: Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 18),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.settings,
+                size: 34,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Image.asset(
