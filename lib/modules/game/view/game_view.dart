@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speed_reflect/modules/game/controller/game_controller.dart';
 
 import '../../../core/constants/app_images.dart';
-import '../../../core/constants/app_sounds.dart';
 import '../../../widgets/card_container.dart';
 
 class GameView extends StatefulWidget {
@@ -88,24 +86,20 @@ class _GameViewState extends State<GameView> {
                 flex: 6,
                 child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 5,
                     crossAxisSpacing: 24,
-                    childAspectRatio: 1,
+                    childAspectRatio: (MediaQuery.of(context).size.width * 0.45) / MediaQuery.of(context).size.height,
                   ),
                   itemBuilder: (context, index) => UnconstrainedBox(
                     child: Consumer(builder: (context, ref, child) {
                       return CardContainer(
-                        onTap: (newCardData) {
-                          if (newCardData.isSelected == false) {
-                            ref.read(widget.controller.levelProvider.notifier).state = 1;
-                            widget.controller.createNewGame(ref: ref);
-                          }
-                          ref.read(widget.controller.cardListProvider.notifier).updateCard(
-                                cardList: ref.watch(widget.controller.cardListProvider),
-                                cardData: newCardData,
-                                index: index,
-                              );
+                        onTap: (newCardData) async {
+                          await widget.controller.clickOnCard(
+                            ref: ref,
+                            cardModel: newCardData,
+                            cardIndex: index,
+                          );
                         },
                         cardData: ref.watch(widget.controller.cardListProvider)[index],
                       );
@@ -126,20 +120,7 @@ class _GameViewState extends State<GameView> {
                           color: widget.controller.allSelectableCardsSelected(ref: ref) ? Colors.green[700] : Colors.grey,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                           onPressed: () async {
-                            if (widget.controller.allSelectableCardsSelected(ref: ref)) {
-                              AudioPlayer audioPlayer = AudioPlayer();
-                              await audioPlayer.play(
-                                AssetSource(AppSounds.nextLevetClickSound),
-                              );
-                              ref.read(widget.controller.levelProvider.notifier).state++;
-                              if (ref.watch(widget.controller.levelProvider) % 10 == 0) {
-                                confettiController.play();
-                              }
-                              Future.delayed(const Duration(milliseconds: 1500), () {
-                                confettiController.stop();
-                              });
-                              widget.controller.createNewGame(ref: ref);
-                            }
+                            widget.controller.goToNextLevel(ref: ref, confettiController: confettiController);
                           },
                           child: const Text(
                             'Next',

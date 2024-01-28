@@ -65,7 +65,7 @@ class _CardContainerState extends State<CardContainer> {
           }
         },
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.25,
+          height: MediaQuery.of(context).size.height * 0.22,
           width: MediaQuery.of(context).size.width * 0.12,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
