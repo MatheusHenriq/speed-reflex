@@ -65,7 +65,7 @@ class GameController {
         );
   }
 
-  Future<void> goToNextLevel(
+  Future<bool> goToNextLevel(
       {required WidgetRef ref, required ConfettiController confettiController, required AudioPlayer audioPlayer}) async {
     if (allSelectableCardsSelected(ref: ref)) {
       ref.read(levelProvider.notifier).state++;
@@ -76,7 +76,9 @@ class GameController {
         confettiController.stop();
       });
       createNewGame(ref: ref);
+      return true;
     }
+    return false;
   }
 
   double getGameViewMainAxisExtentDistribution({required double value}) {

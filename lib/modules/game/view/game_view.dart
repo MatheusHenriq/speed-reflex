@@ -166,10 +166,14 @@ class _NextLevenButtonState extends State<NextLevenButton> {
           color: widget.controller.allSelectableCardsSelected(ref: ref) ? Colors.green[700] : Colors.grey,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
           onPressed: () async {
-            await player.play(
-              AssetSource(AppSounds.nextLevetClickSound),
-            );
-            widget.controller.goToNextLevel(ref: ref, confettiController: widget.confettiController, audioPlayer: player);
+            await player.stop();
+            bool upgradeLevel = await widget.controller
+                .goToNextLevel(ref: ref, confettiController: widget.confettiController, audioPlayer: player);
+            upgradeLevel
+                ? await player.play(
+                    AssetSource(AppSounds.nextLevetClickSound),
+                  )
+                : null;
           },
           child: const Text(
             'Next',
