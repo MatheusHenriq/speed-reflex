@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speed_reflect/modules/game/providers/card_provider.dart';
-
-import '../../../core/constants/app_sounds.dart';
 import '../model/card_model.dart';
 
 class GameController {
@@ -67,12 +65,9 @@ class GameController {
         );
   }
 
-  Future<void> goToNextLevel({required WidgetRef ref, required ConfettiController confettiController}) async {
+  Future<void> goToNextLevel(
+      {required WidgetRef ref, required ConfettiController confettiController, required AudioPlayer audioPlayer}) async {
     if (allSelectableCardsSelected(ref: ref)) {
-      AudioPlayer audioPlayer = AudioPlayer();
-      await audioPlayer.play(
-        AssetSource(AppSounds.nextLevetClickSound),
-      );
       ref.read(levelProvider.notifier).state++;
       if (ref.watch(levelProvider) % _baseLevelToShowconfetti == 0) {
         confettiController.play();
@@ -85,7 +80,7 @@ class GameController {
   }
 
   double getGameViewMainAxisExtentDistribution({required double value}) {
-    return value > 800 ? 74 : 60;
+    return value > 800 ? 74 : 70;
   }
 
   double getGameViewMainAxisSpacingDistribution({required double value, required BuildContext context}) {

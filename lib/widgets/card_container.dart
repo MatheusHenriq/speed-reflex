@@ -37,6 +37,33 @@ class _CardContainerState extends State<CardContainer> {
       color: ((widget.cardData.isActive ?? false) && !(widget.cardData.isSelected ?? false)) ? Colors.red : Colors.brown[200],
       child: InkWell(
         borderRadius: BorderRadius.circular(50),
+        onTapCancel: () async {
+          if (widget.cardData.isActive ?? false) {
+            await player.play(
+              AssetSource(
+                AppSounds.correctClickSound,
+              ),
+            );
+            widget.onTap(
+              CardModel(
+                isActive: false,
+                isSelected: true,
+              ),
+            );
+          } else {
+            widget.onTap(
+              CardModel(
+                isActive: false,
+                isSelected: false,
+              ),
+            );
+            await player.play(
+              AssetSource(
+                AppSounds.wrongClickSound,
+              ),
+            );
+          }
+        },
         onTap: () async {
           if (widget.cardData.isActive ?? false) {
             await player.play(
