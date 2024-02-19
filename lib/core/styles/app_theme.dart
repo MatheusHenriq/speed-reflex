@@ -44,6 +44,17 @@ class AppTheme {
         color: Colors.black,
       ),
     ),
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        overlayColor: MaterialStateColor.resolveWith((states) => Colors.blue.withOpacity(0.4)),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+        ),
+        foregroundColor: MaterialStateProperty.all(Colors.black),
+      ),
+    ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         overlayColor: MaterialStateColor.resolveWith((states) => Colors.blue.withOpacity(0.4)),

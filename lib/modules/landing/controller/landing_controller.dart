@@ -6,7 +6,10 @@ import '../../game/view/game_view.dart';
 
 class LandingController {
   void goToGamePage({required WidgetRef ref}) {
+    ref.read(Modular.get<GameController>().levelProvider.notifier).state = 1;
+
     Modular.get<GameController>().createNewGame(ref: ref);
+
     Modular.to.pushNamed(GameView.route);
   }
 
