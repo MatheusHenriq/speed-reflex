@@ -1,6 +1,7 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:confetti/confetti.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,12 +29,54 @@ class _GameViewState extends State<GameView> {
     super.dispose();
   }
 
+  void backButtonAndroid() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Deseja realmente voltar?"),
+        content: const Text("Ao sair você perde o progresso atual"),
+        actions: [
+          TextButton(
+            onPressed: Modular.to.pop,
+            child: const Text("Não"),
+          ),
+          TextButton(
+            onPressed: () => Modular.to.pushNamed("/"),
+            child: const Text(
+              "Sim",
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  void backButtonIos() {
+    showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+              title: const Text("Deseja realmente voltar?"),
+              content: const Text("Ao sair você perde o progresso atual"),
+              actions: [
+                TextButton(
+                  onPressed: Modular.to.pop,
+                  child: const Text("Não"),
+                ),
+                TextButton(
+                  onPressed: () => Modular.to.pushNamed("/"),
+                  child: const Text(
+                    "Sim",
+                  ),
+                )
+              ],
+            ));
+  }
+
   @override
   Widget build(
     BuildContext context,
   ) {
     return LayoutBuilder(builder: (context, constraints) {
-      log(constraints.maxWidth.toString());
       return Scaffold(
         backgroundColor: Colors.cyanAccent,
         extendBodyBehindAppBar: true,
@@ -43,13 +86,11 @@ class _GameViewState extends State<GameView> {
           elevation: 0,
           title: Consumer(builder: (context, ref, child) {
             return ListTile(
-              leading: ElevatedButton(
-                onPressed: () => Modular.to.pop(),
-                child: const Text(
-                  "Back",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+              leading: IconButton(
+                onPressed: Platform.isAndroid ? backButtonAndroid : backButtonIos,
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
                 ),
               ),
               trailing: Text(
