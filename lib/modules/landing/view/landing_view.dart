@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speed_reflect/core/constants/app_images.dart';
+import 'package:speed_reflect/modules/landing/view/widgets/landing_settings.dart';
 
 import '../controller/landing_controller.dart';
 
 class LandingView extends StatelessWidget {
   final LandingController controller;
-  const LandingView({super.key, required this.controller});
+  LandingView({super.key, required this.controller});
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       child: Scaffold(
+        key: scaffoldKey,
+        endDrawer: const LandingSettings(),
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          actions: <Widget>[Container()],
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -24,7 +29,9 @@ class LandingView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 18),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  scaffoldKey.currentState!.openEndDrawer();
+                },
                 icon: const Icon(
                   Icons.settings,
                   size: 34,
